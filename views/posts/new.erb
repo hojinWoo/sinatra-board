@@ -1,11 +1,26 @@
+<div class="mt-5"> <!--class로도 margin을 줄 수 있음--> 
+<span class="text-center"><h1>게시판입니다</h1> </span>
+<a href = "/">홈으로 가기</a>
+<!--입력 받은 창을 만들고, 처리 하는 곳을 따로 만들어야 함-->
 
-        <h1>게시판입니다</h1>
-        <a href = "/">처음화면으로 가기</a>
-        <!--입력 받은 창을 만들고, 처리 하는 곳을 따로 만들어야 함-->
-        <form action = "/posts/create">
-            <!--name 필수 param으로 받아야 함-->
-            제목 : <input type="text" name="title">
-            내용 : <input type="text" name="body">
-            <input type = "submit" value = "작성하기">
-        </form>
+<!--https://getbootstrap.com/docs/4.1/components/forms/-->   
+<!--class는 건들면 안된다.-->
 
+<form>
+  <div class="/posts/create">
+    <label for="exampleInputEmail1">제목 입력하기</label>
+    <input type="text" name="title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="제목을 입력하세요">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">내용 입력하기</label>
+    <input type="text" name = "body" class="form-control" id="exampleInputPassword1" placeholder="내용을 입력하세요">
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+</div>

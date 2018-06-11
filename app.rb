@@ -49,7 +49,7 @@ end
 #게시글 전부 보여주기
 get '/posts' do
     #data mapper 활용, 전부 보여주기
-    @posts = Post.all
+    @posts = Post.all.reverse
    erb :'posts/posts' 
 end
 
@@ -63,6 +63,12 @@ get '/posts/create' do
     @body = params[:body]
     
     #SQL문과 mapping이 된다.
+    
+    #symbol로 따로 빠르게 가져올 수 있다.
+    # Object_id : memory의 id를 알 수 있다.
+    # symbol을 쓰면 같은 메모리를 쓰기 때문에 string보다 더 빠르게 접근 가능 (불변)
     Post.create(title: @title, body: @body)
+    #cf. 예전에 쓴 문법 : Post.create(title => @title)
+    
     erb :'posts/create'
 end
