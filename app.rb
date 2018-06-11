@@ -72,3 +72,12 @@ get '/posts/create' do
     
     erb :'posts/create'
 end
+
+#id를 통해 특정 글 검색하기(variable writing)
+get '/posts/:id' do
+    #id를 받아온다
+    @id = params[:id]
+    #DB에서 해당 id를 받아서 보낸다.
+    @post = Post.get(@id)
+   erb :'posts/show' 
+end

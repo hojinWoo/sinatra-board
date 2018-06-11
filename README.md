@@ -19,19 +19,44 @@ Ex) html파일에서 `html:5`#누르고 tab을 누르면 기본 html코드들이
 - 폴더 구조
 
   - app.rb
-
   - views/
-
     - posts  //게시글에 관련된 erb파일
-
     - layout.erb
+    - .erb
 
-      
 
-#### 시작 페이지 만들기
+
+### Layout
+
+```ruby
+def hello
+    puts "hello"
+    yield
+    puts "world"
+end
+
+# {} :block 
+hello {puts "ruby"}
+# hello
+# ruby
+# world
+```
+
+
+
+#### 시작 페이지 만들기(routing 및 view 설정)
 
 ```ruby
 # app.rb
+require 'sinatra'
+require "sinatra/reloader"
+
+# routing 설정
+get '/' do
+    send_file 'index.html'
+end
+
+# example
 get '/lunch' do
     @lunch = ["김밥", "라면", "빵"]
     erb :lunch
@@ -87,13 +112,72 @@ DB조작 가장 기초 방식 : create, read, update, delete
   Post.get(1).destroy
   ```
 
+
+
+#### CRUD 만들기
+
+- Create
+
+  ```ruby
+  # 사용자에게 입력받는 창, DB 조작X
+  get '/posts/new' do
+  end
   
+  # 실제로 DB에 저장하는 곳
+  get '/posts/create'do
+      Post.create(title: params[:title], body: params[:body])
+  end
+  ```
+
+- Read
+
+  ```ruby
+  # app.rb 
+  get 'posts/:id' do
+  	@post = Post.get(params[:id])
+  end
+  ```
+
+  
+
+### params
+
+1. variable routing
+
+   ```ruby
+   #app.rb
+   get '/hello/:name' do
+   	@name = params[:name]
+   	erb :name
+   end
+   ```
+
+   
+
+2. `form` tag를 통해서 받는 법
+
+   ```html
+   <!--필수로 넣어야 할 것-->
+   <form action = "/posts/create">
+       <input name = "title">
+   </form>
+   ```
+
+   ```ruby
+   # app.rb
+   # params {title: "ABC"}
+   get '/posts/create' do
+       @title = params[:title]
+   end
+   ```
+
+
 
 #### [DataMapper](http://recipes.sinatrarb.com/p/models/data_mapper)
 
-- ORM을 지원해준다 (Object Relational Mapper),  객체관계매핑
+- ORM 지원 (Object Relational Mapper),  객체관계매핑
 
-  객체지향에서의 class와 DB에 있는 내용을 mapping 해준다.
+  객체지향에서의 class와 DB에 있는 내용을 mapping 해준다. (ruby와 sqlite 매핑)
   cf. 몇 백만명이 쓰는 서비스의 대규모의 DB를 다루기에는 좋지는 않다.
 
 `gem install datamapper`
@@ -128,8 +212,6 @@ DataMapper.finalize
 # automatically create the post table
 Post.auto_upgrade!
 ```
-
-
 
 ```ruby
 require ./app.rb'
