@@ -99,6 +99,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   datamapper
   dm-sqlite-adapter
   json (~> 1.6)

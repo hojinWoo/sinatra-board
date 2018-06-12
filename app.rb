@@ -2,7 +2,10 @@
 # sinatra 자동적으로 reload하기(sinatra/reloader)
 
 # ruby bundler
-
+gem 'json', '~> 1.6'
+require 'sinatra'
+require 'sinatra/reloader'
+require "bcrypt"
 require './model.rb' #DB structure
 
 # parameter log 찍기
@@ -82,6 +85,30 @@ end
 get '/posts/update/:id' do
     @id = params[:id]
     Post.get(@id).update(title: params[:title], body: params[:body])
-    #redirect
+    #redirect : 다시 Read로 넘기기
     redirect '/posts/'+@id
 end
+
+# User Create
+get '/user/new' do
+   erb :'user/new'
+end
+
+get '/user/create' do
+    #비밀번호 체크
+    @password = params[:password]
+    @passwordConfirm = params[:passwordConfirm]
+    if @password == @passwordConfirm
+        #password는 보안을 줘서 저장
+        User.create(name: params[:name],email: params[:email],password: BCrypt::password.create(@password))
+    else
+        redirect '/user/new'
+    end
+    erb :'user/create' 
+end
+
+get '/user' do
+    @user = User.all
+    erb :'user/users'
+end
+

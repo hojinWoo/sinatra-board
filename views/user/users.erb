@@ -1,0 +1,28 @@
+<!--https://getbootstrap.com/docs/4.1/content/tables/-->
+<!--margin top and bottom-->
+<div class = "text-center my-3">
+    <h1>회원 목록</h1>
+</div>
+<table class="table">
+    <thread>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">이름</th>
+            <th scope="col">이메일</th>
+            <th scope="col">비밀번호</th>
+            <th scope="col">가입일자</th>
+        </tr>
+    <tbody>
+        <% @user.reverse.each do |u| %>
+        <tr>
+          <th scope="row"><%= u.id %></th>
+          <td><%= u.name %></td>
+          <td><%= u.email %></td>
+          <td><%= u.password %></td>
+          <td><%= u.created_at %></td>
+        </tr>
+        <% end %>
+    </tbody>
+        
+    </thread>
+</table>
