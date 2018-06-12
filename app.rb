@@ -1,30 +1,9 @@
 # sinatra 사용
 # sinatra 자동적으로 reload하기(sinatra/reloader)
-gem 'json', '~> 1.6' #json version fix (C9 error clear)
-require 'sinatra'
-require "sinatra/reloader"
-require 'data_mapper'
 
-# datamapper log 찍기
-DataMapper::Logger.new($stdout, :bebug)
+# ruby bundler
 
-# need install dm-sqlite-adapter
-DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/blog.db")
-
-class Post
-  include DataMapper::Resource
-  property :id, Serial
-  property :title, String
-  property :body, Text
-  property :created_at, DateTime
-end
-
-# Perform basic sanity checks and initialize all relationships
-# Call this when you've defined all your models
-DataMapper.finalize
-
-# automatically create the post table
-Post.auto_upgrade!
+require './model.rb' #DB structure
 
 # parameter log 찍기
 before do
@@ -58,6 +37,7 @@ get '/posts/new' do
    erb :'posts/new'
 end
 
+# CREATE
 get '/posts/create' do
     @title = params[:title]
     @body = params[:body]
@@ -73,6 +53,7 @@ get '/posts/create' do
     erb :'posts/create'
 end
 
+# READ
 #id를 통해 특정 글 검색하기(variable writing)
 get '/posts/:id' do
     #id를 받아온다
@@ -80,4 +61,27 @@ get '/posts/:id' do
     #DB에서 해당 id를 받아서 보낸다.
     @post = Post.get(@id)
    erb :'posts/show' 
+end
+
+# DELETE
+get '/posts/destroy/:id' do
+    @id = params[:id]
+    Post.get(@id).destroy
+    erb :'posts/destroy'
+end
+
+# Update
+# 1. id를 받아와서 뿌려주고
+# 2. id를 받아와서 내용 업데이트
+
+get '/posts/edit/:id' do
+    @post = Post.get(params[:id])
+    erb :'posts/edit'
+end
+
+get '/posts/update/:id' do
+    @id = params[:id]
+    Post.get(@id).update(title: params[:title], body: params[:body])
+    #redirect
+    redirect '/posts/'+@id
 end

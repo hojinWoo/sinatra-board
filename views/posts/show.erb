@@ -2,3 +2,5 @@
 <p><%= @post.title %></p>
 <p><%= @post.body %></p>
 <p><%= @post.created_at %></p>
+<a class="btn btn-primary" role="button" href = "/posts/destroy/<%= @post.id%>">삭제하기</a>
+<a class="btn btn-primary" role="button" href = "/posts/edit/<%= @post.id%>">수정하기</a>
