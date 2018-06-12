@@ -6,7 +6,15 @@ require 'data_mapper'
 DataMapper::Logger.new($stdout, :bebug)
 
 # need install dm-sqlite-adapter
-DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/blog.db")
+configure :development do
+  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/blog.db")
+end
+
+# For Heroku 
+configure :production do
+  DataMapper::setup(:default, ENV["DATABASE_URL"])
+end
+
 
 class Post
   include DataMapper::Resource
