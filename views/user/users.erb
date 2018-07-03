@@ -11,6 +11,8 @@
             <th scope="col">이메일</th>
             <th scope="col">비밀번호</th>
             <th scope="col">가입일자</th>
+            <th scope="col">수정</th>
+            <th scope="col">삭제</th>
         </tr>
     <tbody>
         <% @user.reverse.each do |u| %>
@@ -20,6 +22,8 @@
           <td><%= u.email %></td>
           <td><%= u.password %></td>
           <td><%= u.created_at %></td>
+          <td><a href = "user/edit/<%= u.id %>">수정</a></td>
+          <td><a href = "user/delete/<%= u.id %>">삭제</a></td>
         </tr>
         <% end %>
     </tbody>

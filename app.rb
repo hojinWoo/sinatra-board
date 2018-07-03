@@ -100,7 +100,7 @@ get '/user/create' do
     @passwordConfirm = params[:passwordConfirm]
     if @password == @passwordConfirm
         #password는 보안을 줘서 저장
-        User.create(name: params[:name],email: params[:email],password: BCrypt::password.create(@password))
+        User.create(name: params[:name],email: params[:email],password: BCrypt::Password.create(@password))
     else
         redirect '/user/new'
     end
@@ -110,5 +110,27 @@ end
 get '/user' do
     @user = User.all
     erb :'user/users'
+end
+
+get '/user/edit/:id' do
+    @user = User.get(params[:id])
+    erb :'user/edit'
+end
+
+get '/user/update/:id' do
+    @password = params[:password]
+    @passwordConfirm = params[:passwordConfirm]
+    if @password == @passwordConfirm
+        User.get(params[:id]).update(name: params[:name],email: params[:email], password: BCrypt::Password.create(@password))
+    else
+        redirect '/user'
+    end
+    erb :'user/update' 
+end
+
+get '/user/delete/:id' do
+    User.get(params[:id]).destroy
+    erb :'user/destroy'
+    redirect '/user'
 end
 

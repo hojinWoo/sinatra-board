@@ -371,3 +371,5 @@ $ git push heroku master
 ```
 
 > 배포하는 방법도 정말 다양함..
+
+[heroku 주소](https://sinatra-board-ssol.herokuapp.com/)
